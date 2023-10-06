@@ -49,3 +49,24 @@ class BankAccount {
     );
   }
 }
+
+class BankAccountWithTransaction extends BankAccount {
+  async deposit() {
+    try {
+      const tambahan = await this.inputSaldo(
+        "Masukkan jumlah saldo yang ingin dideposit:"
+      );
+      if (tambahan !== null) {
+        await this.simulasiTransaksi(async () => {
+          const saldoAwal = this.getSaldo();
+          this.setSaldo(saldoAwal + tambahan);
+          this.showSaldo();
+        });
+      }
+    } catch (error) {
+      console.error("Terjadi kesalahan:", error);
+    }
+  }
+}
+
+const bankAccount = new BankAccountWithTransaction();
