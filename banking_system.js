@@ -67,6 +67,26 @@ class BankAccountWithTransaction extends BankAccount {
       console.error("Terjadi kesalahan:", error);
     }
   }
+  async withdraw() {
+    try {
+      const pengurangan = await this.inputSaldo(
+        "Masukkan jumlah saldo yang ingin diwithdraw:"
+      );
+      if (pengurangan !== null) {
+        await this.simulasiTransaksi(async () => {
+          if (this.getSaldo() - pengurangan < 0) {
+            alert("Saldo tidak mencukupi untuk withdraw.");
+          } else {
+            const saldoAwal = this.getSaldo();
+            this.setSaldo(saldoAwal - pengurangan);
+            this.showSaldo();
+          }
+        });
+      }
+    } catch (error) {
+      console.error("Terjadi kesalahan:", error);
+    }
+  }
 }
 
 const bankAccount = new BankAccountWithTransaction();
